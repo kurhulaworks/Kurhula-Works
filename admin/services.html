@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kurhula Works — Services</title>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <header class="admin-header">
+
+    <div>
+      <div class="brand">
+        KURHULA <span>WORKS</span>
+      </div>
+
+      <p class="admin-label">
+        CONSTRUCTION ADMIN
+      </p>
+    </div>
+
+    <a href="dashboard.html" class="back-dashboard">
+      ← Dashboard
+    </a>
+
+  </header>
+
+
+  <main class="dashboard">
+
+    <section class="welcome">
+
+      <p class="eyebrow">
+        SERVICE MANAGEMENT
+      </p>
+
+      <h1>
+        Construction Services
+      </h1>
+
+      <p>
+        Manage the construction services displayed
+        to potential Kurhula Works clients.
+      </p>
+
+    </section>
+
+
+    <!-- ADD SERVICE -->
+
+    <section class="project-form-card">
+
+      <div class="section-heading">
+
+        <div>
+          <h2>
+            Add Construction Service
+          </h2>
+
+          <p>
+            Add a service that Kurhula Works provides.
+          </p>
+        </div>
+
+      </div>
+
+
+      <form id="serviceForm">
+
+        <div class="form-grid">
+
+          <div class="form-field">
+
+            <label for="serviceName">
+              Service Name
+            </label>
+
+            <input
+              id="serviceName"
+              type="text"
+              placeholder="e.g. Residential Construction"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-field">
+
+            <label for="serviceCategory">
+              Category
+            </label>
+
+            <select id="serviceCategory" required>
+
+              <option value="">
+                Select category
+              </option>
+
+              <option value="residential">
+                Residential
+              </option>
+
+              <option value="renovation">
+                Renovation
+              </option>
+
+              <option value="extension">
+                Extensions
+              </option>
+
+              <option value="commercial">
+                Commercial
+              </option>
+
+              <option value="other">
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="serviceDescription">
+            Service Description
+          </label>
+
+          <textarea
+            id="serviceDescription"
+            rows="5"
+            placeholder="Explain what this service includes..."
+            required
+          ></textarea>
+
+        </div>
+
+
+        <div class="form-field">
+
+          <label for="serviceImage">
+            Service Image
+          </label>
+
+          <input
+            id="serviceImage"
+            type="file"
+            accept="image/*"
+          >
+
+          <small>
+            Optional. The secure media system will handle
+            the upload later.
+          </small>
+
+        </div>
+
+
+        <div class="form-actions">
+
+          <button type="submit">
+            + Add Service
+          </button>
+
+          <button
+            type="reset"
+            class="secondary-btn"
+          >
+            Clear
+          </button>
+
+        </div>
+
+        <p id="serviceMessage"></p>
+
+      </form>
+
+    </section>
+
+
+    <!-- SERVICES -->
+
+    <section class="projects-section">
+
+      <div class="section-heading">
+
+        <div>
+
+          <h2>
+            Current Services
+          </h2>
+
+          <p>
+            Services displayed on the public website
+            will appear here.
+          </p>
+
+        </div>
+
+        <span id="serviceCount">
+          0 Services
+        </span>
+
+      </div>
+
+
+      <div id="servicesList" class="services-list">
+
+        <div class="empty-projects">
+
+          <div>
+            🔨
+          </div>
+
+          <h3>
+            No services added yet
+          </h3>
+
+          <p>
+            Add your first construction service above.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <script>
+
+    document
+      .getElementById("serviceForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        document.getElementById("serviceMessage").textContent =
+          "Service system will be connected to the secure backend next.";
+
+      });
+
+  </script>
+
+</body>
+      </html>
