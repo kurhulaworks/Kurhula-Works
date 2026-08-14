@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Kurhula Works | Construction</title>
+  <title>Kurhula Works | Construction Company</title>
 
   <meta
     name="description"
-    content="Kurhula Works provides construction, building, renovation and extension services."
+    content="Kurhula Construction provides building, construction, renovation and extension services in Tzaneen and surrounding areas."
   >
 
   <link rel="stylesheet" href="css/style.css">
@@ -77,7 +77,10 @@
 
         <div class="hero-actions">
 
-          <a href="#contact" class="btn btn-primary">
+          <a
+            href="#contact"
+            class="btn btn-primary"
+          >
             Make an Enquiry
           </a>
 
@@ -120,8 +123,8 @@
 
           <p>
             Kurhula Works is a construction company focused
-            on delivering practical building solutions for
-            our clients.
+            on delivering practical building solutions
+            for our clients.
           </p>
 
           <p>
@@ -130,7 +133,10 @@
             into quality, functional spaces.
           </p>
 
-          <a href="#contact" class="text-link">
+          <a
+            href="#contact"
+            class="text-link"
+          >
             Discuss your project with us →
           </a>
 
@@ -143,7 +149,10 @@
 
     <!-- ================= SERVICES ================= -->
 
-    <section class="section services" id="services">
+    <section
+      class="section services"
+      id="services"
+    >
 
       <div class="container">
 
@@ -247,7 +256,10 @@
 
     <!-- ================= OUR WORK ================= -->
 
-    <section class="section work" id="work">
+    <section
+      class="section work"
+      id="work"
+    >
 
       <div class="container">
 
@@ -360,7 +372,7 @@
           </h2>
 
           <p>
-            Showing the difference our construction and
+            Showing the difference construction and
             renovation work can make.
           </p>
 
@@ -424,7 +436,9 @@
 
           <div class="benefit">
 
-            <span>01</span>
+            <span>
+              01
+            </span>
 
             <h3>
               Quality
@@ -440,7 +454,9 @@
 
           <div class="benefit">
 
-            <span>02</span>
+            <span>
+              02
+            </span>
 
             <h3>
               Reliability
@@ -456,7 +472,9 @@
 
           <div class="benefit">
 
-            <span>03</span>
+            <span>
+              03
+            </span>
 
             <h3>
               Practical Solutions
@@ -476,9 +494,12 @@
     </section>
 
 
-    <!-- ================= CONTACT / ENQUIRY ================= -->
+    <!-- ================= CONTACT ================= -->
 
-    <section class="section contact" id="contact">
+    <section
+      class="section contact"
+      id="contact"
+    >
 
       <div class="container contact-box">
 
@@ -493,14 +514,16 @@
           </h2>
 
           <p>
-            Tell us briefly what you need and we'll
-            get back to you.
+            Tell us briefly what you need and
+            we'll get back to you.
           </p>
 
         </div>
 
 
         <div class="contact-actions">
+
+          <!-- EMAIL INQUIRY -->
 
           <a
             href="mailto:kurhulaworks@gmail.com?subject=Kurhula%20Works%20Construction%20Inquiry"
@@ -509,6 +532,9 @@
             Send an Inquiry
           </a>
 
+
+          <!-- PHONE -->
+
           <a
             href="tel:+27787733444"
             class="contact-link"
@@ -516,12 +542,18 @@
             📞 078 773 3444
           </a>
 
+
+          <!-- EMAIL -->
+
           <a
             href="mailto:kurhulaworks@gmail.com"
             class="contact-link"
           >
             📧 kurhulaworks@gmail.com
           </a>
+
+
+          <!-- WHATSAPP -->
 
           <a
             href="https://wa.me/27723965778"
@@ -531,6 +563,38 @@
           >
             💬 WhatsApp Kurhula Works
           </a>
+
+
+          <!-- GOOGLE MAPS -->
+
+          <a
+            href="https://share.google/XKsmC79eGDUApaXl1"
+            class="contact-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            📍 Find Kurhula Construction
+          </a>
+
+
+          <!-- LOCATION -->
+
+          <div class="location-details">
+
+            <strong>
+              Kurhula Construction
+            </strong>
+
+            <p>
+              Mango St Dan, Nkomanini<br>
+              Tzaneen, 3784<br>
+              South Africa
+            </p>
+
+          </div>
+
+
+          <!-- DOCUMENT NOTE -->
 
           <p class="contact-note">
             You can also send building plans, drawings,
@@ -567,10 +631,21 @@
 
       <div class="footer-links">
 
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#work">Our Work</a>
-        <a href="#contact">Contact</a>
+        <a href="#home">
+          Home
+        </a>
+
+        <a href="#services">
+          Services
+        </a>
+
+        <a href="#work">
+          Our Work
+        </a>
+
+        <a href="#contact">
+          Contact
+        </a>
 
       </div>
 
@@ -586,7 +661,7 @@
   </footer>
 
 
-  <!-- ================= NAVIGATION SCRIPT ================= -->
+  <!-- ================= MOBILE NAVIGATION ================= -->
 
   <script>
 
@@ -597,33 +672,39 @@
       document.getElementById("mainNav");
 
 
-    menuToggle.addEventListener("click", function () {
+    menuToggle.addEventListener(
+      "click",
+      function () {
 
-      const isOpen =
-        mainNav.classList.toggle("open");
+        const isOpen =
+          mainNav.classList.toggle("open");
 
-      menuToggle.setAttribute(
-        "aria-expanded",
-        isOpen
-      );
+        menuToggle.setAttribute(
+          "aria-expanded",
+          isOpen
+        );
 
-    });
+      }
+    );
 
 
     document
       .querySelectorAll(".main-nav a")
       .forEach(function (link) {
 
-        link.addEventListener("click", function () {
+        link.addEventListener(
+          "click",
+          function () {
 
-          mainNav.classList.remove("open");
+            mainNav.classList.remove("open");
 
-          menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-          );
+            menuToggle.setAttribute(
+              "aria-expanded",
+              "false"
+            );
 
-        });
+          }
+        );
 
       });
 
