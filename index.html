@@ -4,676 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Kurhula Works | Building Better Spaces</title>
+  <title>Kurhula Works | Construction</title>
 
   <meta
     name="description"
-    content="Kurhula Works provides residential construction, renovations, extensions and general building solutions."
+    content="Kurhula Works provides construction, building, renovation and extension services."
   >
 
-  <style>
-    :root {
-      --green: #176b43;
-      --green-dark: #0d4229;
-      --gold: #d5a94b;
-      --dark: #101714;
-      --dark-soft: #17211c;
-      --cream: #f6f5ef;
-      --white: #ffffff;
-      --text: #202923;
-      --muted: #68736c;
-      --border: #e3e6e2;
-      --radius: 18px;
-      --max: 1150px;
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      color: var(--text);
-      background: var(--white);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input,
-    textarea {
-      font: inherit;
-    }
-
-    .container {
-      width: min(92%, var(--max));
-      margin: auto;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(16, 23, 20, 0.97);
-      backdrop-filter: blur(10px);
-    }
-
-    .nav {
-      min-height: 72px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      color: var(--white);
-      font-size: 1.15rem;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .logo span {
-      color: var(--gold);
-    }
-
-    .nav-links {
-      display: none;
-      list-style: none;
-      gap: 28px;
-    }
-
-    .nav-links a {
-      color: #eef3ef;
-      font-size: 0.92rem;
-      font-weight: 700;
-    }
-
-    .menu-btn {
-      border: 0;
-      background: transparent;
-      color: var(--white);
-      font-size: 1.7rem;
-      cursor: pointer;
-    }
-
-    .mobile-menu {
-      display: none;
-      padding-bottom: 18px;
-    }
-
-    .mobile-menu.open {
-      display: block;
-    }
-
-    .mobile-menu a {
-      display: block;
-      color: var(--white);
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-
-    /* =========================
-       HERO
-    ========================= */
-
-    .hero {
-      min-height: 88vh;
-      display: flex;
-      align-items: center;
-      background:
-        linear-gradient(
-          120deg,
-          rgba(13, 66, 41, 0.96),
-          rgba(16, 23, 20, 0.94)
-        );
-      color: var(--white);
-    }
-
-    .hero-content {
-      padding: 85px 0;
-      max-width: 780px;
-    }
-
-    .eyebrow {
-      display: inline-block;
-      color: var(--gold);
-      font-size: 0.78rem;
-      font-weight: 900;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 16px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.7rem, 10vw, 5.4rem);
-      line-height: 0.98;
-      letter-spacing: -2px;
-      margin-bottom: 24px;
-    }
-
-    .hero h1 span {
-      color: var(--gold);
-    }
-
-    .hero p {
-      color: #dce5df;
-      font-size: 1.05rem;
-      max-width: 650px;
-      margin-bottom: 32px;
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .btn {
-      min-height: 50px;
-      padding: 0 22px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 10px;
-      font-weight: 800;
-      transition: 0.2s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .btn-primary {
-      background: var(--gold);
-      color: var(--dark);
-    }
-
-    .btn-outline {
-      border: 1px solid rgba(255,255,255,0.35);
-      color: var(--white);
-    }
-
-    /* =========================
-       GENERAL SECTIONS
-    ========================= */
-
-    section {
-      padding: 82px 0;
-    }
-
-    .section-heading {
-      max-width: 720px;
-      margin-bottom: 42px;
-    }
-
-    .section-heading h2 {
-      color: var(--dark);
-      font-size: clamp(2rem, 7vw, 3.2rem);
-      line-height: 1.05;
-      letter-spacing: -1px;
-      margin-bottom: 15px;
-    }
-
-    .section-heading p {
-      color: var(--muted);
-    }
-
-    /* =========================
-       SERVICES
-    ========================= */
-
-    .services {
-      background: var(--cream);
-    }
-
-    .services-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .service {
-      background: var(--white);
-      padding: 28px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-    }
-
-    .service-number {
-      color: var(--green);
-      font-size: 0.82rem;
-      font-weight: 900;
-      margin-bottom: 18px;
-    }
-
-    .service h3 {
-      color: var(--dark);
-      font-size: 1.25rem;
-      margin-bottom: 10px;
-    }
-
-    .service p {
-      color: var(--muted);
-    }
-
-    /* =========================
-       ABOUT
-    ========================= */
-
-    .about {
-      background: var(--dark);
-      color: var(--white);
-    }
-
-    .about .section-heading h2 {
-      color: var(--white);
-    }
-
-    .about .section-heading p {
-      color: #cbd5ce;
-    }
-
-    .about-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .about-card {
-      padding: 28px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.04);
-    }
-
-    .about-card h3 {
-      color: var(--gold);
-      margin-bottom: 8px;
-    }
-
-    .about-card p {
-      color: #cbd5ce;
-    }
-
-    /* =========================
-       OUR WORK
-    ========================= */
-
-    .work-intro {
-      color: var(--muted);
-      max-width: 650px;
-      margin-top: -20px;
-      margin-bottom: 40px;
-    }
-
-    .projects {
-      display: grid;
-      gap: 28px;
-    }
-
-    .project {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--white);
-    }
-
-    .project-title {
-      padding: 22px 22px 0;
-    }
-
-    .project-title h3 {
-      font-size: 1.3rem;
-      color: var(--dark);
-      margin-bottom: 5px;
-    }
-
-    .project-title p {
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    .before-after {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3px;
-      margin-top: 18px;
-    }
-
-    .photo {
-      min-height: 210px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #dfe3df;
-      color: #58635c;
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-align: center;
-      padding: 15px;
-    }
-
-    .photo.before {
-      background: #d7d8d5;
-    }
-
-    .photo.after {
-      background: #c8d7cd;
-    }
-
-    .label {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 5px;
-      background: rgba(0,0,0,0.65);
-      color: white;
-      font-size: 0.7rem;
-      letter-spacing: 1px;
-    }
-
-    .project-footer {
-      padding: 18px 22px 24px;
-      color: var(--muted);
-      font-size: 0.9rem;
-    }
-
-    /* =========================
-       PROCESS
-    ========================= */
-
-    .process {
-      background: var(--cream);
-    }
-
-    .process-grid {
-      display: grid;
-      gap: 16px;
-    }
-
-    .process-step {
-      background: var(--white);
-      border-radius: var(--radius);
-      padding: 28px;
-      border: 1px solid var(--border);
-    }
-
-    .step-number {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--green);
-      color: var(--white);
-      font-weight: 900;
-      margin-bottom: 18px;
-    }
-
-    .process-step h3 {
-      margin-bottom: 8px;
-    }
-
-    .process-step p {
-      color: var(--muted);
-    }
-
-    /* =========================
-       CTA
-    ========================= */
-
-    .cta {
-      background: var(--green);
-      color: var(--white);
-      text-align: center;
-    }
-
-    .cta h2 {
-      font-size: clamp(2rem, 7vw, 3.3rem);
-      line-height: 1.05;
-      margin-bottom: 15px;
-    }
-
-    .cta p {
-      max-width: 650px;
-      margin: auto auto 28px;
-      color: #e0ece4;
-    }
-
-    .cta .btn-primary {
-      background: var(--white);
-      color: var(--green-dark);
-    }
-
-    /* =========================
-       CONTACT
-    ========================= */
-
-    .contact-grid {
-      display: grid;
-      gap: 28px;
-    }
-
-    .contact-info {
-      background: var(--cream);
-      padding: 28px;
-      border-radius: var(--radius);
-    }
-
-    .contact-info h3 {
-      margin-bottom: 15px;
-    }
-
-    .contact-item {
-      margin-bottom: 15px;
-    }
-
-    .contact-item strong {
-      display: block;
-      color: var(--dark);
-    }
-
-    .contact-item span {
-      color: var(--muted);
-    }
-
-    .contact-form {
-      display: grid;
-      gap: 14px;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 14px;
-      outline: none;
-      background: var(--white);
-    }
-
-    .contact-form textarea {
-      min-height: 140px;
-      resize: vertical;
-    }
-
-    .contact-form button {
-      border: 0;
-      cursor: pointer;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    footer {
-      background: var(--dark);
-      color: #aeb8b1;
-      padding: 30px 0;
-    }
-
-    .footer-inner {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .footer-brand {
-      color: var(--white);
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    /* =========================
-       DESKTOP
-    ========================= */
-
-    @media (min-width: 768px) {
-
-      .menu-btn {
-        display: none;
-      }
-
-      .nav-links {
-        display: flex;
-      }
-
-      .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .about-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .projects {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .process-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .contact-grid {
-        grid-template-columns: 0.8fr 1.2fr;
-      }
-
-      .footer-inner {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-      }
-    }
-
-    @media (min-width: 1024px) {
-
-      .services-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .projects {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-  <!-- HEADER -->
+  <!-- ================= HEADER ================= -->
 
-  <header>
-    <div class="container">
+  <header class="site-header">
 
-      <nav class="nav">
+    <div class="container header-inner">
 
-        <a href="#home" class="logo">
-          KURHULA<span>WORKS</span>
-        </a>
+      <a href="#home" class="logo">
+        KURHULA <span>WORKS</span>
+      </a>
 
-        <button
-          class="menu-btn"
-          id="menuBtn"
-          aria-label="Open navigation"
-        >
-          ☰
-        </button>
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
 
-        <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#work">Our Work</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
+      <nav class="main-nav" id="mainNav">
+
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#work">Our Work</a>
+        <a href="#before-after">Before &amp; After</a>
+        <a href="#contact">Contact</a>
 
       </nav>
 
-      <div class="mobile-menu" id="mobileMenu">
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#work">Our Work</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </div>
-
     </div>
+
   </header>
 
 
-  <!-- HERO -->
-
   <main>
+
+    <!-- ================= HERO ================= -->
 
     <section class="hero" id="home">
 
-      <div class="container">
+      <div class="container hero-content">
 
-        <div class="hero-content">
+        <p class="eyebrow">
+          CONSTRUCTION • BUILDING • RENOVATION
+        </p>
 
-          <span class="eyebrow">
-            Building & Construction
-          </span>
+        <h1>
+          Building spaces
+          <span>that last.</span>
+        </h1>
 
-          <h1>
-            Building spaces that are made to <span>last.</span>
-          </h1>
+        <p class="hero-text">
+          Kurhula Works provides reliable construction,
+          building, renovation and extension services
+          for residential and other building projects.
+        </p>
 
-          <p>
-            Kurhula Works provides practical building solutions
-            for homes, renovations, extensions and suitable
-            larger construction projects.
-          </p>
+        <div class="hero-actions">
 
-          <div class="buttons">
+          <a href="#contact" class="btn btn-primary">
+            Make an Enquiry
+          </a>
 
-            <a
-              href="#contact"
-              class="btn btn-primary"
-            >
-              Request a Quote
-            </a>
-
-            <a
-              href="#work"
-              class="btn btn-outline"
-            >
-              See Our Work
-            </a>
-
-          </div>
+          <a
+            href="https://wa.me/27723965778"
+            class="btn btn-secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp Us
+          </a>
 
         </div>
 
@@ -682,92 +97,143 @@
     </section>
 
 
-    <!-- SERVICES -->
+    <!-- ================= ABOUT ================= -->
 
-    <section class="services" id="services">
+    <section class="section about" id="about">
+
+      <div class="container two-column">
+
+        <div>
+
+          <p class="eyebrow">
+            ABOUT KURHULA WORKS
+          </p>
+
+          <h2>
+            Construction with
+            <span>purpose.</span>
+          </h2>
+
+        </div>
+
+        <div class="about-text">
+
+          <p>
+            Kurhula Works is a construction company focused
+            on delivering practical building solutions for
+            our clients.
+          </p>
+
+          <p>
+            From new construction to renovations and
+            extensions, we work to turn construction ideas
+            into quality, functional spaces.
+          </p>
+
+          <a href="#contact" class="text-link">
+            Discuss your project with us →
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= SERVICES ================= -->
+
+    <section class="section services" id="services">
 
       <div class="container">
 
         <div class="section-heading">
 
-          <span class="eyebrow">
-            What We Do
-          </span>
+          <p class="eyebrow">
+            OUR SERVICES
+          </p>
 
           <h2>
-            Building solutions for your project.
+            What We Do
           </h2>
 
           <p>
-            Whether you are building a new home, improving
-            an existing property or planning a larger project,
-            we focus on practical construction solutions.
+            Construction solutions for different
+            building requirements.
           </p>
 
         </div>
 
 
-        <div class="services-grid">
+        <div class="service-grid">
 
-          <article class="service">
+          <article class="service-card">
 
-            <div class="service-number">01</div>
+            <span class="service-number">
+              01
+            </span>
 
             <h3>
-              New Homes
+              Residential Construction
             </h3>
 
             <p>
-              Construction solutions for new residential
-              homes and properties.
+              Construction services for homes and
+              residential properties.
             </p>
 
           </article>
 
 
-          <article class="service">
+          <article class="service-card">
 
-            <div class="service-number">02</div>
+            <span class="service-number">
+              02
+            </span>
 
             <h3>
               Renovations
             </h3>
 
             <p>
-              Improve, modernise and transform existing
-              residential spaces.
+              Renovating and improving existing
+              residential and building spaces.
             </p>
 
           </article>
 
 
-          <article class="service">
+          <article class="service-card">
 
-            <div class="service-number">03</div>
+            <span class="service-number">
+              03
+            </span>
 
             <h3>
-              Extensions
+              Building Extensions
             </h3>
 
             <p>
-              Add practical new spaces to your existing
-              property as your needs grow.
+              Expanding existing properties with
+              additional rooms and spaces.
             </p>
 
           </article>
 
 
-          <article class="service">
+          <article class="service-card">
 
-            <div class="service-number">04</div>
+            <span class="service-number">
+              04
+            </span>
 
             <h3>
-              General Building
+              General Construction
             </h3>
 
             <p>
-              Suitable commercial, institutional and
-              other building projects.
+              Construction solutions based on the
+              requirements of your project.
             </p>
 
           </article>
@@ -779,70 +245,226 @@
     </section>
 
 
-    <!-- ABOUT -->
+    <!-- ================= OUR WORK ================= -->
 
-    <section class="about" id="about">
+    <section class="section work" id="work">
 
       <div class="container">
 
         <div class="section-heading">
 
-          <span class="eyebrow">
-            About Kurhula Works
-          </span>
+          <p class="eyebrow">
+            OUR WORK
+          </p>
 
           <h2>
-            Built with purpose. Built with care.
+            Projects
           </h2>
 
           <p>
-            Our approach is simple: understand what the client
-            needs, plan the work properly and focus on delivering
-            quality construction.
+            A look at construction work completed
+            by Kurhula Works.
           </p>
 
         </div>
 
 
-        <div class="about-grid">
+        <div class="project-grid">
 
-          <div class="about-card">
+          <article class="project-card">
+
+            <div class="project-image placeholder">
+              PROJECT PHOTO
+            </div>
+
+            <div class="project-info">
+
+              <p>
+                RESIDENTIAL
+              </p>
+
+              <h3>
+                Residential Project
+              </h3>
+
+            </div>
+
+          </article>
+
+
+          <article class="project-card">
+
+            <div class="project-image placeholder">
+              PROJECT PHOTO
+            </div>
+
+            <div class="project-info">
+
+              <p>
+                RENOVATION
+              </p>
+
+              <h3>
+                Renovation Project
+              </h3>
+
+            </div>
+
+          </article>
+
+
+          <article class="project-card">
+
+            <div class="project-image placeholder">
+              PROJECT PHOTO
+            </div>
+
+            <div class="project-info">
+
+              <p>
+                CONSTRUCTION
+              </p>
+
+              <h3>
+                Construction Project
+              </h3>
+
+            </div>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= BEFORE & AFTER ================= -->
+
+    <section
+      class="section transformation"
+      id="before-after"
+    >
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <p class="eyebrow">
+            BEFORE &amp; AFTER
+          </p>
+
+          <h2>
+            See the Transformation
+          </h2>
+
+          <p>
+            Showing the difference our construction and
+            renovation work can make.
+          </p>
+
+        </div>
+
+
+        <div class="before-after-grid">
+
+          <div class="before-after-card">
+
+            <div class="ba-image placeholder">
+              BEFORE
+            </div>
+
+            <div class="ba-label">
+              BEFORE
+            </div>
+
+          </div>
+
+
+          <div class="before-after-card">
+
+            <div class="ba-image placeholder">
+              AFTER
+            </div>
+
+            <div class="ba-label">
+              AFTER
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= WHY US ================= -->
+
+    <section class="section why-us">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <p class="eyebrow">
+            WHY KURHULA WORKS
+          </p>
+
+          <h2>
+            Built around your project.
+          </h2>
+
+        </div>
+
+
+        <div class="benefits-grid">
+
+          <div class="benefit">
+
+            <span>01</span>
 
             <h3>
               Quality
             </h3>
 
             <p>
-              We aim for workmanship that clients can be
-              proud of and spaces designed for long-term use.
+              We focus on delivering practical and
+              quality construction solutions.
             </p>
 
           </div>
 
 
-          <div class="about-card">
+          <div class="benefit">
+
+            <span>02</span>
 
             <h3>
               Reliability
             </h3>
 
             <p>
-              We believe communication and responsible
-              project management are essential to good work.
+              Clear communication and dependable
+              service throughout your project.
             </p>
 
           </div>
 
 
-          <div class="about-card">
+          <div class="benefit">
+
+            <span>03</span>
 
             <h3>
-              Client Focus
+              Practical Solutions
             </h3>
 
             <p>
-              Every project starts by understanding the
-              client's needs, goals and available space.
+              Construction solutions based on the
+              needs of your property and project.
             </p>
 
           </div>
@@ -854,388 +476,66 @@
     </section>
 
 
-    <!-- OUR WORK -->
+    <!-- ================= CONTACT / ENQUIRY ================= -->
 
-    <section id="work">
+    <section class="section contact" id="contact">
 
-      <div class="container">
+      <div class="container contact-box">
 
-        <div class="section-heading">
+        <div>
 
-          <span class="eyebrow">
-            Our Work
-          </span>
+          <p class="eyebrow">
+            MAKE AN ENQUIRY
+          </p>
 
           <h2>
-            See the difference.
+            Have a construction project in mind?
           </h2>
 
           <p>
-            Construction is easier to understand when you
-            can see the transformation. This section will
-            showcase our completed work.
+            Tell us briefly what you need and we'll
+            get back to you.
           </p>
 
         </div>
 
 
-        <p class="work-intro">
-          Below are spaces reserved for Kurhula Works project
-          photography. We will replace these placeholders with
-          real before-and-after project photographs.
-        </p>
-
-
-        <div class="projects">
-
-
-          <!-- PROJECT 1 -->
-
-          <article class="project">
-
-            <div class="project-title">
-
-              <h3>
-                Residential Transformation
-              </h3>
-
-              <p>
-                Renovation project
-              </p>
-
-            </div>
-
-
-            <div class="before-after">
-
-              <div class="photo before">
-
-                <span class="label">
-                  BEFORE
-                </span>
-
-              </div>
-
-              <div class="photo after">
-
-                <span class="label">
-                  AFTER
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="project-footer">
-              Project photography coming soon.
-            </div>
-
-          </article>
-
-
-          <!-- PROJECT 2 -->
-
-          <article class="project">
-
-            <div class="project-title">
-
-              <h3>
-                Residential Building
-              </h3>
-
-              <p>
-                New home construction
-              </p>
-
-            </div>
-
-
-            <div class="before-after">
-
-              <div class="photo before">
-
-                <span class="label">
-                  BEFORE
-                </span>
-
-              </div>
-
-              <div class="photo after">
-
-                <span class="label">
-                  AFTER
-                </span>
-
-              </div>
-
-            </div>
-
-
-            <div class="project-footer">
-              Project photography coming soon.
-            </div>
-
-          </article>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- PROCESS -->
-
-    <section class="process">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="eyebrow">
-            How It Works
-          </span>
-
-          <h2>
-            From idea to finished project.
-          </h2>
-
-          <p>
-            Getting started doesn't need to be complicated.
-          </p>
-
-        </div>
-
-
-        <div class="process-grid">
-
-          <div class="process-step">
-
-            <div class="step-number">
-              1
-            </div>
-
-            <h3>
-              Tell Us
-            </h3>
-
-            <p>
-              Contact us and tell us about the project
-              you have in mind.
-            </p>
-
-          </div>
-
-
-          <div class="process-step">
-
-            <div class="step-number">
-              2
-            </div>
-
-            <h3>
-              Discuss
-            </h3>
-
-            <p>
-              We discuss your requirements and understand
-              what needs to be done.
-            </p>
-
-          </div>
-
-
-          <div class="process-step">
-
-            <div class="step-number">
-              3
-            </div>
-
-            <h3>
-              Plan
-            </h3>
-
-            <p>
-              We assess the project and determine the
-              appropriate way forward.
-            </p>
-
-          </div>
-
-
-          <div class="process-step">
-
-            <div class="step-number">
-              4
-            </div>
-
-            <h3>
-              Build
-            </h3>
-
-            <p>
-              The project moves forward with the agreed
-              construction plan.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- CTA -->
-
-    <section class="cta">
-
-      <div class="container">
-
-        <h2>
-          Have a building project in mind?
-        </h2>
-
-        <p>
-          Tell us what you are planning and let's discuss
-          how Kurhula Works can help.
-        </p>
-
-        <a
-          href="#contact"
-          class="btn btn-primary"
-        >
-          Start an Inquiry
-        </a>
-
-      </div>
-
-    </section>
-
-
-    <!-- CONTACT -->
-
-    <section id="contact">
-
-      <div class="container">
-
-        <div class="section-heading">
-
-          <span class="eyebrow">
-            Contact
-          </span>
-
-          <h2>
-            Let's talk about your project.
-          </h2>
-
-          <p>
-            Send us the basic details of your project
-            and we'll take it from there.
-          </p>
-
-        </div>
-
-
-        <div class="contact-grid">
-
-
-          <div class="contact-info">
-
-            <h3>
-              Kurhula Works
-            </h3>
-
-            <div class="contact-item">
-
-              <strong>
-                Phone
-              </strong>
-
-              <span>
-                Contact details coming soon
-              </span>
-
-            </div>
-
-
-            <div class="contact-item">
-
-              <strong>
-                WhatsApp
-              </strong>
-
-              <span>
-                WhatsApp number coming soon
-              </span>
-
-            </div>
-
-
-            <div class="contact-item">
-
-              <strong>
-                Email
-              </strong>
-
-              <span>
-                Email address coming soon
-              </span>
-
-            </div>
-
-
-            <div class="contact-item">
-
-              <strong>
-                Service Area
-              </strong>
-
-              <span>
-                Location details coming soon
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <form
-            class="contact-form"
-            onsubmit="return false;"
+        <div class="contact-actions">
+
+          <a
+            href="mailto:kurhulaworks@gmail.com?subject=Kurhula%20Works%20Construction%20Inquiry"
+            class="btn btn-primary"
           >
+            Send an Inquiry
+          </a>
 
-            <input
-              type="text"
-              placeholder="Your name"
-              required
-            >
+          <a
+            href="tel:+27787733444"
+            class="contact-link"
+          >
+            📞 078 773 3444
+          </a>
 
-            <input
-              type="tel"
-              placeholder="Phone number"
-              required
-            >
+          <a
+            href="mailto:kurhulaworks@gmail.com"
+            class="contact-link"
+          >
+            📧 kurhulaworks@gmail.com
+          </a>
 
-            <input
-              type="email"
-              placeholder="Email address"
-            >
+          <a
+            href="https://wa.me/27723965778"
+            class="contact-link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            💬 WhatsApp Kurhula Works
+          </a>
 
-            <textarea
-              placeholder="Tell us about your project"
-            ></textarea>
-
-            <button
-              type="submit"
-              class="btn btn-primary"
-            >
-              Send Inquiry
-            </button>
-
-          </form>
+          <p class="contact-note">
+            You can also send building plans, drawings,
+            photos or other project documents by email.
+          </p>
 
         </div>
 
@@ -1246,57 +546,86 @@
   </main>
 
 
-  <!-- FOOTER -->
+  <!-- ================= FOOTER ================= -->
 
-  <footer>
+  <footer class="site-footer">
 
     <div class="container footer-inner">
 
-      <div class="footer-brand">
-        KURHULA WORKS
+      <div>
+
+        <div class="logo">
+          KURHULA <span>WORKS</span>
+        </div>
+
+        <p>
+          Construction • Building • Renovation
+        </p>
+
       </div>
 
-      <div>
-        © <span id="year"></span>
-        Kurhula Works. All rights reserved.
+
+      <div class="footer-links">
+
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#work">Our Work</a>
+        <a href="#contact">Contact</a>
+
       </div>
+
+    </div>
+
+
+    <div class="container copyright">
+
+      © 2026 Kurhula Works. All rights reserved.
 
     </div>
 
   </footer>
 
 
+  <!-- ================= NAVIGATION SCRIPT ================= -->
+
   <script>
 
-    const menuBtn =
-      document.getElementById("menuBtn");
+    const menuToggle =
+      document.getElementById("menuToggle");
 
-    const mobileMenu =
-      document.getElementById("mobileMenu");
+    const mainNav =
+      document.getElementById("mainNav");
 
 
-    menuBtn.addEventListener("click", () => {
+    menuToggle.addEventListener("click", function () {
 
-      mobileMenu.classList.toggle("open");
+      const isOpen =
+        mainNav.classList.toggle("open");
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        isOpen
+      );
 
     });
 
 
     document
-      .querySelectorAll(".mobile-menu a")
-      .forEach(link => {
+      .querySelectorAll(".main-nav a")
+      .forEach(function (link) {
 
-        link.addEventListener("click", () => {
+        link.addEventListener("click", function () {
 
-          mobileMenu.classList.remove("open");
+          mainNav.classList.remove("open");
+
+          menuToggle.setAttribute(
+            "aria-expanded",
+            "false"
+          );
 
         });
 
       });
-
-
-    document.getElementById("year").textContent =
-      new Date().getFullYear();
 
   </script>
 
