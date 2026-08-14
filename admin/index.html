@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kurhula Works — Admin</title>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <main class="login-page">
+
+    <section class="login-card">
+
+      <div class="brand">
+        KURHULA<span>WORKS</span>
+      </div>
+
+      <p class="label">
+        ADMINISTRATION
+      </p>
+
+      <h1>
+        Welcome back
+      </h1>
+
+      <p class="intro">
+        Sign in to manage Kurhula Works projects,
+        media and inquiries.
+      </p>
+
+      <form id="loginForm">
+
+        <label for="email">
+          Email
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          placeholder="Admin email"
+          autocomplete="email"
+          required
+        >
+
+        <label for="password">
+          Password
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          placeholder="Password"
+          autocomplete="current-password"
+          required
+        >
+
+        <button type="submit">
+          Sign In
+        </button>
+
+        <p id="message"></p>
+
+      </form>
+
+      <a href="../index.html" class="back">
+        ← Back to website
+      </a>
+
+    </section>
+
+  </main>
+
+  <script>
+    document
+      .getElementById("loginForm")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        document.getElementById("message").textContent =
+          "Secure login will be connected next.";
+
+      });
+  </script>
+
+</body>
+</html>
