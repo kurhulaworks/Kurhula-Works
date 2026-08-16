@@ -1,27 +1,34 @@
-// Cloudflare Worker: API for Kurhula Works
+// Cloudflare Worker: API for Kurhula Works (updated with CORS and OPTIONS handling)
+
+const ALLOWED_ORIGIN = 'https://kurhula-works.pages.dev'; // Pages site origin - update if you use a different Pages domain
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     try {
+      // Handle CORS preflight
+      if (request.method === 'OPTIONS') {
+        return corsResponse(null);
+      }
+
       if (url.pathname.startsWith('/api/')) {
         return await handleApi(request, env);
       }
       if (url.pathname.startsWith('/images/')) {
         // Proxy images from R2 by key: /images/<r2_key>
         const key = url.pathname.replace('/images/', '');
-        if (!key) return new Response('Not found', { status: 404 });
+        if (!key) return corsResponse(new Response('Not found', { status: 404 }));
         const obj = await env.IMAGES.get(key);
-        if (!obj) return new Response('Not found', { status: 404 });
+        if (!obj) return corsResponse(new Response('Not found', { status: 404 }));
         return new Response(obj.body, {
-          headers: { 'Content-Type': obj.httpMetadata.contentType || 'application/octet-stream' }
+          headers: { 'Content-Type': obj.httpMetadata.contentType || 'application/octet-stream', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN }
         });
       }
 
-      // For Pages, allow passthrough (serve static) — deployment will handle static assets.
-      return new Response('Not found', { status: 404 });
+      // For Pages static assets, return 404 (Pages will serve static content). Return CORS-safe response.
+      return corsResponse(new Response('Not found', { status: 404 }));
     } catch (err) {
-      return new Response('Internal error: ' + err.message, { status: 500 });
+      return corsResponse(new Response('Internal error: ' + err.message, { status: 500 }));
     }
   }
 };
@@ -32,27 +39,27 @@ async function handleApi(request, env) {
   const path = url.pathname.replace('/api', '');
 
   // Public endpoints
-  if (path === '/sections' && method === 'GET') return listSections(env);
-  if (path === '/images' && method === 'GET') return listImages(request, env);
-  if (path === '/enquiries' && method === 'POST') return createEnquiry(request, env);
+  if (path === '/sections' && method === 'GET') return corsResponse(await listSections(env));
+  if (path === '/images' && method === 'GET') return corsResponse(await listImages(request, env));
+  if (path === '/enquiries' && method === 'POST') return corsResponse(await createEnquiry(request, env));
 
   // Admin auth
-  if (path === '/admin/login' && method === 'POST') return adminLogin(request, env);
-  if (path === '/admin/logout' && method === 'POST') return adminLogout(request, env);
+  if (path === '/admin/login' && method === 'POST') return corsResponse(await adminLogin(request, env));
+  if (path === '/admin/logout' && method === 'POST') return corsResponse(await adminLogout(request, env));
 
   // Protected endpoints
   const auth = await authenticate(request, env);
-  if (!auth || !auth.adminId) return new Response('Unauthorized', { status: 401 });
+  if (!auth || !auth.adminId) return corsResponse(new Response('Unauthorized', { status: 401 }));
 
-  if (path === '/enquiries' && method === 'GET') return getEnquiries(env);
+  if (path === '/enquiries' && method === 'GET') return corsResponse(await getEnquiries(env));
 
-  if (path === '/images/upload' && method === 'POST') return uploadImage(request, env, auth);
+  if (path === '/images/upload' && method === 'POST') return corsResponse(await uploadImage(request, env, auth));
   if (path.startsWith('/images/') && method === 'DELETE') {
     const id = path.split('/')[2];
-    return deleteImage(id, env);
+    return corsResponse(await deleteImage(id, env));
   }
 
-  return new Response('Not found', { status: 404 });
+  return corsResponse(new Response('Not found', { status: 404 }));
 }
 
 // Utilities
@@ -94,7 +101,7 @@ async function adminLogin(request, env) {
   if (row.password !== password) return new Response('Unauthorized', { status: 401 });
 
   // Create a session token
-  const token = crypto.getRandomValues(new Uint8Array(32)).reduce((s,b)=>s+(b%16).toString(16),'') + Date.now();
+  const token = [...crypto.getRandomValues(new Uint8Array(32))].map(b=>b.toString(16).padStart(2,'0')).join('') + Date.now();
   const expires = new Date(Date.now() + 1000*60*60*24).toISOString();
   await env.DB.prepare('INSERT INTO sessions (token, admin_id, expires_at) VALUES (?, ?, ?)').bind(token, row.id, expires).run();
   return json({ token });
@@ -162,4 +169,16 @@ async function deleteImage(id, env) {
 
 function json(obj){
   return new Response(JSON.stringify(obj), { status: 200, headers: { 'Content-Type': 'application/json' } });
+}
+
+function corsResponse(response) {
+  if (response instanceof Response) {
+    response.headers.set('Access-Control-Allow-Origin', ALLOWED_ORIGIN);
+    response.headers.set('Access-Control-Allow-Credentials', 'true');
+    response.headers.set('Access-Control-Allow-Methods', 'GET, HEAD, POST, OPTIONS, PUT, DELETE');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    return response;
+  }
+  // if passed an object, return json with CORS
+  return new Response(JSON.stringify(response || {}), { status: 200, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': ALLOWED_ORIGIN, 'Access-Control-Allow-Credentials': 'true', 'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS, PUT, DELETE', 'Access-Control-Allow-Headers': 'Content-Type, Authorization' } });
 }
