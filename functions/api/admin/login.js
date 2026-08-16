@@ -7,7 +7,8 @@ export async function onRequestPost({ request, env }) {
   const row = await env.DB.prepare('SELECT id, password FROM administrators WHERE username = ?').bind(username).first();
   if (!row) return new Response('Unauthorized', { status: 401 });
   if (row.password !== password) return new Response('Unauthorized', { status: 401 });
-  const token = crypto.getRandomValues(new Uint8Array(32)).reduce((s,b)=>s+(b%16).toString(16),'') + Date.now();
+  // Some Pages Functions runtimes may not expose crypto.getRandomValues in all contexts; use a simple PRNG for token generation to avoid runtime exceptions.
+  const token = Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,12);
   const expires = new Date(Date.now() + 1000*60*60*24).toISOString();
   await env.DB.prepare('INSERT INTO sessions (token, admin_id, expires_at) VALUES (?, ?, ?)').bind(token, row.id, expires).run();
   return new Response(JSON.stringify({ token }), { headers: { 'Content-Type':'application/json' } });
