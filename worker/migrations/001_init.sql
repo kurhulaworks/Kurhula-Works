@@ -1,6 +1,6 @@
 -- init.sql: D1 schema for Kurhula Works
 
-CREATE TABLE IF NOT EXISTS administrators (
+CREATE  TABLE IF NOT EXISTS administrators (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT NOT NULL UNIQUE,
   password TEXT NOT NULL,
