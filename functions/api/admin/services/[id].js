@@ -1,5 +1,5 @@
-import { json, error } from '../../../../_shared/response.js';
-import { authenticateRequest } from '../../../../_shared/auth.js';
+import { json, error } from '../../../_shared/response.js';
+import { authenticateRequest } from '../../../_shared/auth.js';
 
 export async function onRequestPut({ params, request, env }) {
   const auth = await authenticateRequest(request, env);
