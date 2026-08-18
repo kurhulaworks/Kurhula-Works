@@ -182,6 +182,88 @@ a:hover {
   background: var(--brand-primary-dark);
 }
 
+
+
+
+/* ========================================
+   HERO
+======================================== */
+
+.hero {
+  background: var(--brand-secondary);
+  color: var(--text-light);
+  padding: 90px var(--space-md);
+}
+
+.hero .container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.eyebrow {
+  color: var(--brand-primary);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.85rem;
+  margin-bottom: var(--space-sm);
+}
+
+.hero h1 {
+  max-width: 800px;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  line-height: 1.05;
+  margin-bottom: var(--space-md);
+}
+
+.hero-text {
+  max-width: 650px;
+  color: #d7dce0;
+  font-size: 1.1rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+
+
+/* ========================================
+   BUTTONS
+======================================== */
+
+.button {
+  display: inline-block;
+  margin-top: 0;
+  padding: 14px 22px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+.button-primary {
+  background: var(--brand-primary);
+  color: var(--text-light);
+}
+
+.button-primary:hover {
+  background: var(--brand-primary-dark);
+}
+
+.button-secondary {
+  background: transparent;
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.button-secondary:hover {
+  background: var(--text-light);
+  color: var(--brand-secondary);
+}
 /* ========================================
    FOOTER
 ======================================== */
@@ -230,3 +312,20 @@ footer {
   }
 
    }
+
+.hero {
+  padding: 65px var(--space-md);
+}
+
+.hero h1 {
+  font-size: 2.7rem;
+}
+
+.hero-actions {
+  flex-direction: column;
+}
+
+.hero-actions .button {
+  width: 100%;
+  text-align: center;
+}
