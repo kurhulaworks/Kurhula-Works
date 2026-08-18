@@ -264,6 +264,86 @@ a:hover {
   background: var(--text-light);
   color: var(--brand-secondary);
 }
+
+
+
+
+/* ========================================
+   SECTIONS
+======================================== */
+
+.section {
+  padding: 80px var(--space-md);
+}
+
+.section .container {
+  max-width: var(--content-width);
+  margin: 0 auto;
+}
+
+.section h2 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 30px;
+}
+
+.section-alt {
+  background: #eeeeee;
+}
+
+.section-intro {
+  max-width: 650px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+
+/* ========================================
+   SERVICES
+======================================== */
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.service-card {
+  margin: 0;
+  padding: 30px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.service-card .service-number {
+  color: var(--brand-primary);
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.service-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.service-card p {
+  color: var(--text-muted);
+}
+
+
+/* ========================================
+   PROJECTS
+======================================== */
+
+.projects-placeholder {
+  margin-top: 30px;
+  padding: 50px 20px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  text-align: center;
+  color: var(--text-muted);
+}
 /* ========================================
    FOOTER
 ======================================== */
@@ -328,4 +408,11 @@ footer {
 .hero-actions .button {
   width: 100%;
   text-align: center;
+}
+.services-grid {
+  grid-template-columns: 1fr;
+}
+
+.section {
+  padding: 60px var(--space-md);
 }
