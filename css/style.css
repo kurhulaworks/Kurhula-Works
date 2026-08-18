@@ -665,6 +665,9 @@ a {
   line-height: 1.7;
 }
 
+.projects-grid {
+  grid-template-columns: 1fr;
+}
 
 /* ==================================================
    CONTACT
