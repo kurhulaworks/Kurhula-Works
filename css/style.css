@@ -1,0 +1,266 @@
+/* Main styling for Kurhula Works site.
+   Uses variables from css/brand.css
+*/
+
+:root { font-size: 16px; }
+
+* { box-sizing: border-box; }
+html,body { height:100%; }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color:var(--text);
+  background:var(--brand-light);
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  scroll-behavior:smooth;
+}
+
+/* Container */
+.container{
+  width:100%;
+  max-width:var(--max-width);
+  padding: 0 var(--container-padding);
+  margin:0 auto;
+}
+
+/* Header */
+.site-header{
+  background:linear-gradient(180deg, rgba(255,255,255,0.8), rgba(255,255,255,0.7));
+  position:sticky;
+  top:0;
+  z-index:40;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(11,26,22,0.04);
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  height:72px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  text-decoration:none;
+  color:var(--brand-dark);
+}
+.brand-name{ font-weight:600; font-size:1.05rem; }
+
+/* Nav - mobile first */
+.nav-toggle{
+  margin-left:auto;
+  background:none;
+  border: none;
+  padding:8px;
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+}
+.hamburger{
+  width:22px;
+  height:2px;
+  background:var(--brand-dark);
+  display:block;
+  position:relative;
+}
+.hamburger::before,
+.hamburger::after{
+  content:"";
+  position:absolute;
+  left:0;
+  width:22px;
+  height:2px;
+  background:var(--brand-dark);
+  transition: transform .2s ease;
+}
+.hamburger::before{ top:-7px; }
+.hamburger::after{ top:7px; }
+
+.main-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  top:72px;
+  background:white;
+  transform:translateY(-12px) scale(.98);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease, transform .18s ease;
+  box-shadow: 0 8px 24px rgba(10,18,16,0.06);
+}
+.main-nav.open{
+  transform:none;
+  opacity:1;
+  pointer-events:auto;
+}
+.main-nav ul{
+  list-style:none;
+  margin:0;
+  padding:10px var(--container-padding);
+  display:flex;
+  flex-direction:column;
+  gap:.2rem;
+}
+.main-nav a{
+  display:block;
+  padding:10px;
+  color:var(--brand-dark);
+  text-decoration:none;
+  font-weight:600;
+  border-radius:6px;
+}
+.main-nav a:hover{ background:rgba(15,76,58,0.03); }
+
+/* Desktop nav */
+@media(min-width:860px){
+  .nav-toggle{ display:none; }
+  .main-nav{
+    position:static;
+    transform:none;
+    opacity:1;
+    pointer-events:auto;
+    background:transparent;
+    box-shadow:none;
+  }
+  .main-nav ul{
+    flex-direction:row;
+    gap:1rem;
+    align-items:center;
+    padding:0;
+  }
+  .main-nav a{ padding:8px 12px; }
+  .header-inner{ height:88px; }
+}
+
+/* Hero */
+.hero{
+  padding:36px 0;
+  background: linear-gradient(180deg, rgba(15,76,58,0.06), rgba(255,255,255,0));
+}
+.hero-inner{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:20px;
+  align-items:center;
+  padding:24px 0 48px;
+}
+.hero-copy h1{
+  margin:0 0 12px;
+  font-size:1.6rem;
+  line-height:1.1;
+  color:var(--brand-dark);
+}
+.lead{ color:var(--muted); margin-bottom:16px; }
+
+.btn{
+  display:inline-block;
+  text-decoration:none;
+  padding:10px 14px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  border:1px solid transparent;
+}
+.btn-primary{
+  background:var(--brand-primary);
+  color:white;
+}
+.btn-outline{
+  background:transparent;
+  color:var(--brand-primary);
+  border-color: rgba(15,76,58,0.08);
+}
+
+/* Sections */
+.section{ padding:28px 0; background:transparent; }
+.section h2{ margin-top:0; margin-bottom:12px; color:var(--brand-dark); }
+
+/* About */
+.about-grid{ display:grid; gap:18px; }
+.about-list{ margin-top:12px; padding-left:1rem; color:var(--muted); }
+
+/* Cards for services */
+.cards{ display:grid; gap:12px; }
+.card{
+  background:white;
+  padding:16px;
+  border-radius:var(--radius);
+  box-shadow: 0 6px 18px rgba(11,26,22,0.04);
+}
+
+/* Projects - empty state and gallery structure styling */
+.project-list-empty { margin-top:12px; display:flex; justify-content:center; }
+.empty-card{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow: 0 8px 20px rgba(10,18,16,0.04);
+  text-align:center;
+  max-width:600px;
+}
+
+/* Gallery scaffolding for future Admin data */
+.project-list{ display:grid; gap:18px; margin-top:12px; }
+.project{ background:white; padding:16px; border-radius:10px; box-shadow: 0 8px 20px rgba(10,18,16,0.04); }
+.project-title{ margin:0 0 10px 0; }
+.project-photos{ display:grid; grid-template-columns:1fr; gap:12px; }
+.photo-group h4{ margin:0 0 8px; font-size:.95rem; color:var(--brand-primary); }
+.photos-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+.photo-thumb{
+  background:transparent;
+  border:none;
+  padding:0;
+  cursor:pointer;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow: 0 6px 16px rgba(11,26,22,0.03);
+}
+.photo-thumb img{ display:block; width:220px; max-width:100%; height:auto; }
+
+/* Contact grid */
+.contact-grid{ display:grid; gap:18px; }
+.contact-form label{ display:block; margin-bottom:10px; font-weight:600; color:var(--brand-dark); }
+.contact-form input,
+.contact-form textarea{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #e6e9e7;
+  margin-top:6px;
+  font-size:0.95rem;
+  background:white;
+}
+.form-row{ display:grid; gap:12px; grid-template-columns:1fr; }
+.form-actions{ display:flex; gap:8px; margin-top:8px; align-items:center; }
+
+/* Contact aside */
+.contact-info{ background:rgba(15,76,58,0.04); padding:16px; border-radius:10px; }
+
+/* Footer */
+.site-footer{
+  border-top: 1px solid rgba(11,26,22,0.04);
+  padding:18px 0;
+  background:transparent;
+}
+.footer-inner{ display:flex; gap:12px; align-items:center; justify-content:space-between; }
+
+/* Muted and small */
+.muted{ color:var(--muted); }
+.small{ font-size:.9rem; }
+
+/* Responsive */
+@media(min-width:720px){
+  .hero-inner{ grid-template-columns: 1fr 420px; gap:28px; }
+  .about-grid{ grid-template-columns:1fr 1fr; }
+  .cards{ grid-template-columns: repeat(3, 1fr); }
+  .project-photos{ grid-template-columns: 1fr 1fr; }
+  .contact-grid{ grid-template-columns:1fr 320px; }
+  .form-row{ grid-template-columns: 1fr 1fr; }
+}
+
+@media(min-width:1100px){
+  .container{ padding:0; }
+}
