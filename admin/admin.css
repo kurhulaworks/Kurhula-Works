@@ -442,3 +442,114 @@ a {
   }
 
 }
+
+
+
+
+
+/* ========================================
+   ADMIN SELECT
+======================================== */
+
+.admin-panel select {
+  width: 100%;
+
+  padding: 13px;
+
+  font: inherit;
+
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+
+  background: var(--admin-surface);
+}
+
+
+/* ========================================
+   ADMIN PROJECT LIST
+======================================== */
+
+.admin-project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-project-item {
+  display: grid;
+
+  grid-template-columns: 180px 1fr;
+
+  gap: 25px;
+
+  padding: 20px;
+
+  border: 1px solid var(--admin-border);
+
+  border-radius: var(--admin-radius);
+}
+
+
+/* ========================================
+   PROJECT IMAGE
+======================================== */
+
+.admin-project-image {
+  min-height: 140px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: var(--admin-background);
+
+  color: var(--admin-text-muted);
+
+  border: 1px dashed var(--admin-border);
+}
+
+
+/* ========================================
+   PROJECT CONTENT
+======================================== */
+
+.admin-project-content h3 {
+  margin: 5px 0 8px;
+}
+
+.admin-project-content p {
+  color: var(--admin-text-muted);
+}
+
+
+/* ========================================
+   PROJECT ACTIONS
+======================================== */
+
+.admin-project-actions {
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 20px;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+
+  .admin-project-item {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-project-image {
+    min-height: 180px;
+  }
+
+}
