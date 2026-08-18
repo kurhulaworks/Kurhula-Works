@@ -576,3 +576,86 @@ a {
 .admin-empty p {
   color: var(--admin-text-muted);
 }
+
+
+
+
+/* ========================================
+   QUOTE FORM
+======================================== */
+
+.quote-form {
+  max-width: 720px;
+  margin-top: 45px;
+  padding: 35px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.06);
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font: inherit;
+  color: var(--text-main);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(22, 128, 60, 0.12);
+}
+
+.quote-form .button {
+  border: none;
+  cursor: pointer;
+  font: inherit;
+}
+
+.form-note {
+  max-width: 720px;
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+
+/* ========================================
+   QUOTE FORM — MOBILE
+======================================== */
+
+@media (max-width: 600px) {
+
+  .quote-form {
+    padding: 24px 18px;
+    margin-top: 30px;
+  }
+
+}
