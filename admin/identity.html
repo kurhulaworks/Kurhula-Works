@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Website Identity | Kurhula Works Admin</title>
+
+  <link rel="stylesheet" href="admin.css">
+
+</head>
+
+
+<body>
+
+
+  <!-- ADMIN HEADER -->
+
+  <header class="admin-header">
+
+    <div class="admin-container">
+
+      <div class="admin-brand">
+
+        <a href="index.html" class="admin-brand-name">
+          Kurhula Works
+        </a>
+
+        <span class="admin-label">
+          Admin
+        </span>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- MAIN -->
+
+  <main class="admin-main">
+
+    <div class="admin-container">
+
+
+      <!-- PAGE HEADER -->
+
+      <section class="admin-welcome">
+
+        <p class="eyebrow">
+          Website Settings
+        </p>
+
+        <h1>
+          Website Identity
+        </h1>
+
+        <p>
+          Manage the company name and logo
+          displayed on the public website.
+        </p>
+
+      </section>
+
+
+      <!-- COMPANY NAME -->
+
+      <section class="admin-panel">
+
+        <div class="admin-panel-header">
+
+          <h2>
+            Company Name
+          </h2>
+
+          <p>
+            This name will appear throughout
+            the public website.
+          </p>
+
+        </div>
+
+
+        <form>
+
+          <label for="company-name">
+            Company name
+          </label>
+
+          <input
+            type="text"
+            id="company-name"
+            name="company-name"
+            value="Kurhula Works"
+            placeholder="Enter company name"
+          >
+
+          <button
+            type="submit"
+            class="admin-button"
+          >
+            Save Company Name
+          </button>
+
+        </form>
+
+      </section>
+
+
+      <!-- LOGO -->
+
+      <section class="admin-panel">
+
+        <div class="admin-panel-header">
+
+          <h2>
+            Company Logo
+          </h2>
+
+          <p>
+            Upload the logo that should appear
+            on the public website.
+          </p>
+
+        </div>
+
+
+        <div class="logo-preview">
+
+          <div class="logo-placeholder">
+            Logo preview
+          </div>
+
+        </div>
+
+
+        <form>
+
+          <label for="company-logo">
+            Select logo
+          </label>
+
+          <input
+            type="file"
+            id="company-logo"
+            name="company-logo"
+            accept="image/png,image/jpeg,image/webp"
+          >
+
+          <button
+            type="submit"
+            class="admin-button"
+          >
+            Upload Logo
+          </button>
+
+        </form>
+
+      </section>
+
+
+      <!-- BACK -->
+
+      <a
+        href="index.html"
+        class="admin-back"
+      >
+        ← Back to Dashboard
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+</body>
+
+</html>
