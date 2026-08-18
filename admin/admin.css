@@ -353,3 +353,92 @@ a {
 
   font-weight: 700;
 }
+
+
+
+
+
+/* ========================================
+   ADMIN TEXTAREA
+======================================== */
+
+.admin-panel textarea {
+  width: 100%;
+
+  padding: 13px;
+
+  font: inherit;
+
+  resize: vertical;
+
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+
+  background: var(--admin-surface);
+}
+
+
+/* ========================================
+   ADMIN SERVICE LIST
+======================================== */
+
+.admin-service-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-service-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+
+  padding: 20px;
+
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
+}
+
+.admin-service-item h3 {
+  margin: 5px 0;
+}
+
+.admin-service-item p {
+  color: var(--admin-text-muted);
+}
+
+.admin-service-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-button-danger {
+  background: #9b1c1c;
+}
+
+.admin-button-danger:hover {
+  background: #721515;
+}
+
+
+/* ========================================
+   MOBILE
+======================================== */
+
+@media (max-width: 700px) {
+
+  .admin-service-item {
+    flex-direction: column;
+  }
+
+  .admin-service-actions {
+    width: 100%;
+  }
+
+  .admin-service-actions .admin-button {
+    flex: 1;
+  }
+
+}
