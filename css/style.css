@@ -105,6 +105,88 @@ a {
 
 
 /* ==================================================
+   FLOATING WHATSAPP
+   ================================================== */
+
+.whatsapp-float {
+  position: fixed;
+
+  right: 20px;
+  bottom: 20px;
+
+  z-index: 1100;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 13px 18px;
+
+  background: #16803c;
+  color: #ffffff;
+
+  border-radius: 999px;
+
+  text-decoration: none;
+
+  font-size: 0.85rem;
+  font-weight: 750;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.whatsapp-float:hover {
+  background: #0f5c2b;
+  color: #ffffff;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, 0.22);
+}
+
+.whatsapp-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.whatsapp-label {
+  white-space: nowrap;
+}
+
+
+@media (max-width: 700px) {
+
+  .whatsapp-float {
+    right: 15px;
+    bottom: 15px;
+
+    width: 52px;
+    height: 52px;
+
+    padding: 0;
+
+    justify-content: center;
+
+    border-radius: 50%;
+  }
+
+  .whatsapp-label {
+    display: none;
+  }
+
+  .whatsapp-icon {
+    font-size: 1.4rem;
+  }
+
+}
+
+/* ==================================================
    HEADER
    ================================================== */
 
