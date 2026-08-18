@@ -553,3 +553,26 @@ a {
   }
 
 }
+
+
+/* ========================================
+   ADMIN EMPTY STATE
+======================================== */
+
+.admin-empty {
+  padding: 50px 20px;
+
+  text-align: center;
+
+  border: 1px dashed var(--admin-border);
+
+  border-radius: var(--admin-radius);
+}
+
+.admin-empty h3 {
+  margin-bottom: 8px;
+}
+
+.admin-empty p {
+  color: var(--admin-text-muted);
+}
