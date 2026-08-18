@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Projects | Kurhula Works Admin</title>
+
+  <link rel="stylesheet" href="admin.css">
+
+</head>
+
+
+<body>
+
+
+  <!-- ADMIN HEADER -->
+
+  <header class="admin-header">
+
+    <div class="admin-container">
+
+      <div class="admin-brand">
+
+        <a
+          href="index.html"
+          class="admin-brand-name"
+        >
+          Kurhula Works
+        </a>
+
+        <span class="admin-label">
+          Admin
+        </span>
+
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- MAIN -->
+
+  <main class="admin-main">
+
+    <div class="admin-container">
+
+
+      <!-- PAGE HEADER -->
+
+      <section class="admin-welcome">
+
+        <p class="eyebrow">
+          Website Content
+        </p>
+
+        <h1>
+          Projects
+        </h1>
+
+        <p>
+          Manage completed construction and
+          renovation projects.
+        </p>
+
+      </section>
+
+
+      <!-- ADD PROJECT -->
+
+      <section class="admin-panel">
+
+        <div class="admin-panel-header">
+
+          <h2>
+            Add Project
+          </h2>
+
+          <p>
+            Add a project to the public
+            portfolio.
+          </p>
+
+        </div>
+
+
+        <form>
+
+
+          <label for="project-title">
+            Project title
+          </label>
+
+          <input
+            type="text"
+            id="project-title"
+            name="project-title"
+            placeholder="e.g. Three Bedroom House"
+          >
+
+
+          <label for="project-service">
+            Service
+          </label>
+
+          <select
+            id="project-service"
+            name="project-service"
+          >
+
+            <option value="">
+              Select a service
+            </option>
+
+            <option value="building-houses">
+              Building Houses
+            </option>
+
+            <option value="renovations">
+              Renovations
+            </option>
+
+          </select>
+
+
+          <label for="project-description">
+            Description
+          </label>
+
+          <textarea
+            id="project-description"
+            name="project-description"
+            rows="5"
+            placeholder="Describe the project..."
+          ></textarea>
+
+
+          <label for="project-image">
+            Project photo
+          </label>
+
+          <input
+            type="file"
+            id="project-image"
+            name="project-image"
+            accept="image/png,image/jpeg,image/webp"
+          >
+
+
+          <button
+            type="submit"
+            class="admin-button"
+          >
+            Add Project
+          </button>
+
+
+        </form>
+
+      </section>
+
+
+      <!-- PROJECT LIST -->
+
+      <section class="admin-panel">
+
+        <div class="admin-panel-header">
+
+          <h2>
+            Current Projects
+          </h2>
+
+          <p>
+            Projects currently displayed
+            on the website.
+          </p>
+
+        </div>
+
+
+        <div class="admin-project-list">
+
+
+          <!-- BUILDING PROJECT -->
+
+          <article class="admin-project-item">
+
+            <div class="admin-project-image">
+
+              <span>
+                Project photo
+              </span>
+
+            </div>
+
+
+            <div class="admin-project-content">
+
+              <span class="admin-card-number">
+                BUILDING HOUSES
+              </span>
+
+              <h3>
+                Featured House Project
+              </h3>
+
+              <p>
+                A residential construction
+                project completed by
+                Kurhula Works.
+              </p>
+
+
+              <div class="admin-project-actions">
+
+                <button
+                  type="button"
+                  class="admin-button"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="admin-button admin-button-danger"
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+          <!-- RENOVATION PROJECT -->
+
+          <article class="admin-project-item">
+
+            <div class="admin-project-image">
+
+              <span>
+                Project photo
+              </span>
+
+            </div>
+
+
+            <div class="admin-project-content">
+
+              <span class="admin-card-number">
+                RENOVATIONS
+              </span>
+
+              <h3>
+                Featured Renovation
+              </h3>
+
+              <p>
+                A renovation project completed
+                by Kurhula Works.
+              </p>
+
+
+              <div class="admin-project-actions">
+
+                <button
+                  type="button"
+                  class="admin-button"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="admin-button admin-button-danger"
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          </article>
+
+
+        </div>
+
+      </section>
+
+
+      <!-- BACK -->
+
+      <a
+        href="index.html"
+        class="admin-back"
+      >
+        ← Back to Dashboard
+      </a>
+
+
+    </div>
+
+  </main>
+
+
+</body>
+
+</html>
