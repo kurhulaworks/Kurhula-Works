@@ -1,34 +1,151 @@
-const jsonHeaders = {
-  "Content-Type": "application/json"
-};
-
+const SESSION_COOKIE = "kw_admin_session";
 const SESSION_DAYS = 7;
+const PBKDF2_ITERATIONS = 310000;
 
-function json(data, status = 200) {
+function json(data, status = 200, extraHeaders = {}) {
   return new Response(JSON.stringify(data), {
     status,
-    headers: jsonHeaders
+    headers: {
+      "Content-Type": "application/json",
+      ...extraHeaders
+    }
   });
 }
 
 function getCookie(request, name) {
-  const cookieHeader = request.headers.get("Cookie") || "";
+  const header = request.headers.get("Cookie") || "";
 
-  for (const part of cookieHeader.split(";")) {
-    const [key, ...valueParts] = part.trim().split("=");
+  for (const part of header.split(";")) {
+    const trimmed = part.trim();
+    const separator = trimmed.indexOf("=");
+
+    if (separator === -1) continue;
+
+    const key = trimmed.slice(0, separator);
+    const value = trimmed.slice(separator + 1);
 
     if (key === name) {
-      return decodeURIComponent(valueParts.join("="));
+      return decodeURIComponent(value);
     }
   }
 
   return null;
 }
 
-function bytesToHex(bytes) {
-  return [...new Uint8Array(bytes)]
-    .map(byte => byte.toString(16).padStart(2, "0"))
-    .join("");
+function bytesToBase64(bytes) {
+  let binary = "";
+
+  for (const byte of bytes) {
+    binary += String.fromCharCode(byte);
+  }
+
+  return btoa(binary);
+}
+
+function base64ToBytes(value) {
+  const binary = atob(value);
+  const bytes = new Uint8Array(binary.length);
+
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return bytes;
+}
+
+function createRandomBytes(length) {
+  const bytes = new Uint8Array(length);
+  crypto.getRandomValues(bytes);
+  return bytes;
+}
+
+async function derivePasswordHash(password, salt) {
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+
+  const bits = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations: PBKDF2_ITERATIONS,
+      hash: "SHA-256"
+    },
+    key,
+    256
+  );
+
+  return new Uint8Array(bits);
+}
+
+async function hashPassword(password) {
+  const salt = createRandomBytes(16);
+  const derived = await derivePasswordHash(password, salt);
+
+  return [
+    "pbkdf2",
+    PBKDF2_ITERATIONS,
+    bytesToBase64(salt),
+    bytesToBase64(derived)
+  ].join("$");
+}
+
+function constantTimeEqual(a, b) {
+  if (a.length !== b.length) return false;
+
+  let difference = 0;
+
+  for (let i = 0; i < a.length; i++) {
+    difference |= a[i] ^ b[i];
+  }
+
+  return difference === 0;
+}
+
+async function verifyPassword(password, storedHash) {
+  const parts = storedHash.split("$");
+
+  if (parts.length !== 4) return false;
+  if (parts[0] !== "pbkdf2") return false;
+
+  const iterations = Number(parts[1]);
+
+  if (!Number.isInteger(iterations)) return false;
+
+  const salt = base64ToBytes(parts[2]);
+  const expected = base64ToBytes(parts[3]);
+
+  const encoder = new TextEncoder();
+
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(password),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+
+  const bits = await crypto.subtle.deriveBits(
+    {
+      name: "PBKDF2",
+      salt,
+      iterations,
+      hash: "SHA-256"
+    },
+    key,
+    expected.length * 8
+  );
+
+  return constantTimeEqual(
+    new Uint8Array(bits),
+    expected
+  );
 }
 
 async function sha256(value) {
@@ -39,43 +156,44 @@ async function sha256(value) {
     data
   );
 
-  return bytesToHex(hash);
+  return bytesToBase64(new Uint8Array(hash));
 }
 
-function createToken() {
-  const bytes = new Uint8Array(32);
-
-  crypto.getRandomValues(bytes);
-
-  return bytesToHex(bytes);
+function createSessionToken() {
+  return bytesToBase64(createRandomBytes(32));
 }
 
-function getCorsHeaders() {
+async function createSession(env, accountType, accountId) {
+  const token = createSessionToken();
+  const tokenHash = await sha256(token);
+
+  const expiresAt = new Date(
+    Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000
+  ).toISOString();
+
+  await env.DB
+    .prepare(
+      `INSERT INTO sessions
+       (session_token_hash, account_type, account_id, expires_at)
+       VALUES (?, ?, ?, ?)`
+    )
+    .bind(
+      tokenHash,
+      accountType,
+      accountId,
+      expiresAt
+    )
+    .run();
+
   return {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Access-Control-Allow-Methods": "POST, OPTIONS"
+    token,
+    expiresAt
   };
 }
 
-export async function onRequest(context) {
+export async function onRequestPost(context) {
   const { request, env } = context;
-
-  if (request.method === "OPTIONS") {
-    return new Response(null, {
-      status: 204,
-      headers: getCorsHeaders()
-    });
-  }
-
   const url = new URL(request.url);
-
-  if (request.method !== "POST") {
-    return json({
-      success: false,
-      error: "Method not allowed."
-    }, 405);
-  }
 
   let data;
 
@@ -89,9 +207,9 @@ export async function onRequest(context) {
   }
 
   /*
-    LOGIN
-    POST /auth/login
-  */
+   * LOGIN
+   * POST /auth/login
+   */
 
   if (url.pathname === "/auth/login") {
     const email = String(data.email || "")
@@ -107,18 +225,14 @@ export async function onRequest(context) {
       }, 400);
     }
 
-    const passwordHash = await sha256(password);
-
     let account = await env.DB
       .prepare(
-        `SELECT id, email, name, status
+        `SELECT id, email, name, status, password_hash
          FROM admins
          WHERE email = ?
-         AND password_hash = ?
-         AND status = 'active'
          LIMIT 1`
       )
-      .bind(email, passwordHash)
+      .bind(email)
       .first();
 
     let accountType = "admin";
@@ -126,49 +240,39 @@ export async function onRequest(context) {
     if (!account) {
       account = await env.DB
         .prepare(
-          `SELECT id, email, name, status
+          `SELECT id, email, name, status, password_hash
            FROM users
            WHERE email = ?
-           AND password_hash = ?
-           AND status = 'active'
            LIMIT 1`
         )
-        .bind(email, passwordHash)
+        .bind(email)
         .first();
 
       accountType = "user";
     }
 
-    if (!account) {
+    if (
+      !account ||
+      account.status !== "active" ||
+      !await verifyPassword(
+        password,
+        account.password_hash
+      )
+    ) {
       return json({
         success: false,
         error: "Invalid email or password."
       }, 401);
     }
 
-    const token = createToken();
-    const tokenHash = await sha256(token);
+    const session = await createSession(
+      env,
+      accountType,
+      account.id
+    );
 
-    const expiresAt = new Date(
-      Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000
-    ).toISOString();
-
-    await env.DB
-      .prepare(
-        `INSERT INTO sessions
-         (session_token_hash, account_type, account_id, expires_at)
-         VALUES (?, ?, ?, ?)`
-      )
-      .bind(
-        tokenHash,
-        accountType,
-        account.id,
-        expiresAt
-      )
-      .run();
-
-    return new Response(
-      JSON.stringify({
+    return json(
+      {
         success: true,
         account: {
           type: accountType,
@@ -176,32 +280,29 @@ export async function onRequest(context) {
           email: account.email,
           name: account.name
         }
-      }),
+      },
+      200,
       {
-        status: 200,
-        headers: {
-          ...jsonHeaders,
-          "Set-Cookie":
-            `kw_admin_session=${encodeURIComponent(token)}; ` +
-            `Path=/; ` +
-            `HttpOnly; ` +
-            `Secure; ` +
-            `SameSite=Strict; ` +
-            `Max-Age=${SESSION_DAYS * 24 * 60 * 60}`
-        }
+        "Set-Cookie":
+          `${SESSION_COOKIE}=${encodeURIComponent(session.token)}; ` +
+          `Path=/; ` +
+          `HttpOnly; ` +
+          `Secure; ` +
+          `SameSite=Strict; ` +
+          `Max-Age=${SESSION_DAYS * 24 * 60 * 60}`
       }
     );
   }
 
   /*
-    LOGOUT
-    POST /auth/logout
-  */
+   * LOGOUT
+   * POST /auth/logout
+   */
 
   if (url.pathname === "/auth/logout") {
     const token = getCookie(
       request,
-      "kw_admin_session"
+      SESSION_COOKIE
     );
 
     if (token) {
@@ -215,23 +316,20 @@ export async function onRequest(context) {
         .run();
     }
 
-    return new Response(
-      JSON.stringify({
+    return json(
+      {
         success: true,
         message: "Logged out."
-      }),
+      },
+      200,
       {
-        status: 200,
-        headers: {
-          ...jsonHeaders,
-          "Set-Cookie":
-            "kw_admin_session=; " +
-            "Path=/; " +
-            "HttpOnly; " +
-            "Secure; " +
-            "SameSite=Strict; " +
-            "Max-Age=0"
-        }
+        "Set-Cookie":
+          `${SESSION_COOKIE}=; ` +
+          `Path=/; ` +
+          `HttpOnly; ` +
+          `Secure; ` +
+          `SameSite=Strict; ` +
+          `Max-Age=0`
       }
     );
   }
