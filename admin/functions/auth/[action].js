@@ -339,3 +339,22 @@ export async function onRequestPost(context) {
     error: "Authentication endpoint not found."
   }, 404);
 }
+
+
+
+
+
+export function onRequestGet(context) {
+  return new Response(
+    JSON.stringify({
+      success: true,
+      message: "Authentication service is running."
+    }),
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
+      }
