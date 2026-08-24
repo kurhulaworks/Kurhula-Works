@@ -59,7 +59,7 @@ function createRandomBytes(length) {
   return bytes;
 }
 
-async function derivePasswordHash(password, salt) {
+async function derivePasswordHash(password, salt, iterations = PBKDF2_ITERATIONS) {
   const encoder = new TextEncoder();
 
   const key = await crypto.subtle.importKey(
@@ -74,7 +74,7 @@ async function derivePasswordHash(password, salt) {
     {
       name: "PBKDF2",
       salt,
-      iterations: PBKDF2_ITERATIONS,
+      iterations,
       hash: "SHA-256"
     },
     key,
@@ -86,7 +86,11 @@ async function derivePasswordHash(password, salt) {
 
 async function hashPassword(password) {
   const salt = createRandomBytes(16);
-  const derived = await derivePasswordHash(password, salt);
+  const derived = await derivePasswordHash(
+    password,
+    salt,
+    PBKDF2_ITERATIONS
+  );
 
   return [
     "pbkdf2",
@@ -109,43 +113,32 @@ function constantTimeEqual(a, b) {
 }
 
 async function verifyPassword(password, storedHash) {
-  const parts = storedHash.split("$");
+  try {
+    const parts = storedHash.split("$");
 
-  if (parts.length !== 4) return false;
-  if (parts[0] !== "pbkdf2") return false;
+    if (parts.length !== 4) return false;
+    if (parts[0] !== "pbkdf2") return false;
 
-  const iterations = Number(parts[1]);
+    const iterations = Number(parts[1]);
 
-  if (!Number.isInteger(iterations)) return false;
+    if (!Number.isInteger(iterations)) return false;
 
-  const salt = base64ToBytes(parts[2]);
-  const expected = base64ToBytes(parts[3]);
+    const salt = base64ToBytes(parts[2]);
+    const expected = base64ToBytes(parts[3]);
 
-  const encoder = new TextEncoder();
-
-  const key = await crypto.subtle.importKey(
-    "raw",
-    encoder.encode(password),
-    "PBKDF2",
-    false,
-    ["deriveBits"]
-  );
-
-  const bits = await crypto.subtle.deriveBits(
-    {
-      name: "PBKDF2",
+    const derived = await derivePasswordHash(
+      password,
       salt,
-      iterations,
-      hash: "SHA-256"
-    },
-    key,
-    expected.length * 8
-  );
+      iterations
+    );
 
-  return constantTimeEqual(
-    new Uint8Array(bits),
-    expected
-  );
+    return constantTimeEqual(
+      derived,
+      expected
+    );
+  } catch {
+    return false;
+  }
 }
 
 async function sha256(value) {
@@ -188,6 +181,80 @@ async function createSession(env, accountType, accountId) {
   return {
     token,
     expiresAt
+  };
+}
+
+async function getAuthenticatedAccount(request, env) {
+  const token = getCookie(
+    request,
+    SESSION_COOKIE
+  );
+
+  if (!token) {
+    return null;
+  }
+
+  const tokenHash = await sha256(token);
+
+  const session = await env.DB
+    .prepare(
+      `SELECT
+         id,
+         account_type,
+         account_id,
+         expires_at
+       FROM sessions
+       WHERE session_token_hash = ?
+       LIMIT 1`
+    )
+    .bind(tokenHash)
+    .first();
+
+  if (!session) {
+    return null;
+  }
+
+  if (
+    !session.expires_at ||
+    new Date(session.expires_at).getTime() <= Date.now()
+  ) {
+    await env.DB
+      .prepare(
+        "DELETE FROM sessions WHERE id = ?"
+      )
+      .bind(session.id)
+      .run();
+
+    return null;
+  }
+
+  const table =
+    session.account_type === "admin"
+      ? "admins"
+      : "users";
+
+  const account = await env.DB
+    .prepare(
+      `SELECT
+         id,
+         email,
+         name,
+         status
+       FROM ${table}
+       WHERE id = ?
+       LIMIT 1`
+    )
+    .bind(session.account_id)
+    .first();
+
+  if (!account || account.status !== "active") {
+    return null;
+  }
+
+  return {
+    session,
+    account,
+    accountType: session.account_type
   };
 }
 
@@ -295,6 +362,142 @@ export async function onRequestPost(context) {
   }
 
   /*
+   * CHANGE PASSWORD
+   * POST /auth/change-password
+   */
+
+  if (url.pathname === "/auth/change-password") {
+    const authenticated = await getAuthenticatedAccount(
+      request,
+      env
+    );
+
+    if (!authenticated) {
+      return json({
+        success: false,
+        error: "Authentication required."
+      }, 401);
+    }
+
+    const currentPassword = String(
+      data.currentPassword || ""
+    );
+
+    const newPassword = String(
+      data.newPassword || ""
+    );
+
+    const confirmPassword = String(
+      data.confirmPassword || ""
+    );
+
+    if (
+      !currentPassword ||
+      !newPassword ||
+      !confirmPassword
+    ) {
+      return json({
+        success: false,
+        error: "All password fields are required."
+      }, 400);
+    }
+
+    if (newPassword !== confirmPassword) {
+      return json({
+        success: false,
+        error: "New passwords do not match."
+      }, 400);
+    }
+
+    if (newPassword.length < 10) {
+      return json({
+        success: false,
+        error: "New password must be at least 10 characters."
+      }, 400);
+    }
+
+    const table =
+      authenticated.accountType === "admin"
+        ? "admins"
+        : "users";
+
+    const storedAccount = await env.DB
+      .prepare(
+        `SELECT id, password_hash
+         FROM ${table}
+         WHERE id = ?
+         LIMIT 1`
+      )
+      .bind(authenticated.account.id)
+      .first();
+
+    if (!storedAccount) {
+      return json({
+        success: false,
+        error: "Account not found."
+      }, 404);
+    }
+
+    const currentPasswordValid =
+      await verifyPassword(
+        currentPassword,
+        storedAccount.password_hash
+      );
+
+    if (!currentPasswordValid) {
+      return json({
+        success: false,
+        error: "Current password is incorrect."
+      }, 401);
+    }
+
+    if (currentPassword === newPassword) {
+      return json({
+        success: false,
+        error: "New password must be different from the current password."
+      }, 400);
+    }
+
+    const newPasswordHash =
+      await hashPassword(newPassword);
+
+    await env.DB
+      .prepare(
+        `UPDATE ${table}
+         SET password_hash = ?,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = ?`
+      )
+      .bind(
+        newPasswordHash,
+        authenticated.account.id
+      )
+      .run();
+
+    /*
+     * Invalidate every existing session for this account.
+     * The admin will need to log in again with the new password.
+     */
+
+    await env.DB
+      .prepare(
+        `DELETE FROM sessions
+         WHERE account_type = ?
+         AND account_id = ?`
+      )
+      .bind(
+        authenticated.accountType,
+        authenticated.account.id
+      )
+      .run();
+
+    return json({
+      success: true,
+      message: "Password changed successfully. Please log in again."
+    });
+  }
+
+  /*
    * LOGOUT
    * POST /auth/logout
    */
@@ -339,8 +542,3 @@ export async function onRequestPost(context) {
     error: "Authentication endpoint not found."
   }, 404);
 }
-
-
-
-
-
