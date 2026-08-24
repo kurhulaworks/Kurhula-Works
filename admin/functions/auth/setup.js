@@ -1,3 +1,4 @@
+const SETUP_SECRET = "@Kurhula33444";
 const PBKDF2_ITERATIONS = 310000;
 
 function json(data, status = 200) {
@@ -58,6 +59,18 @@ async function hashPassword(password) {
 export async function onRequestPost(context) {
   const { request, env } = context;
 
+  const providedSecret =
+  request.headers.get("X-Setup-Secret");
+
+if (
+  !providedSecret ||
+  providedSecret !== SETUP_SECRET
+) {
+  return json({
+    success: false,
+    error: "Unauthorized."
+  }, 401);
+}
   const existing = await env.DB
     .prepare("SELECT id FROM admins LIMIT 1")
     .first();
