@@ -1,5 +1,5 @@
 const API_URL =
-  "https://YOUR-WORKER-URL.workers.dev";
+  "kurhula-works-api.kurhulaworks.workers.dev";
 
 
 const form =
