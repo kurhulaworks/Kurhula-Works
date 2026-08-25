@@ -1,5 +1,5 @@
 const API_URL =
-  "kurhula-works-api.kurhulaworks.workers.dev";
+  "https://kurhula-works-api.kurhulaworks.workers.dev";
 
 
 const form =
@@ -71,7 +71,10 @@ form.addEventListener("submit", async (event) => {
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Identity save error:",
+      error
+    );
 
     message.textContent =
       "Unable to connect to the server.";
