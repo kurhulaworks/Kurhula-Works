@@ -1,4 +1,40 @@
 import { handleEnquiry } from "./enquiries.js";
+import {
+  getIdentity,
+  updateIdentity
+} from "./identity.js";
+
+
+// Website Identity
+if (request.method === "GET" && url.pathname === "/identity") {
+  const response = await getIdentity(env);
+
+  const headers = new Headers(response.headers);
+
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    headers.set(key, value);
+  });
+
+  return new Response(response.body, {
+    status: response.status,
+    headers
+  });
+}
+
+if (request.method === "PUT" && url.pathname === "/identity") {
+  const response = await updateIdentity(request, env);
+
+  const headers = new Headers(response.headers);
+
+  Object.entries(corsHeaders).forEach(([key, value]) => {
+    headers.set(key, value);
+  });
+
+  return new Response(response.body, {
+    status: response.status,
+    headers
+  });
+}
 
 export default {
   async fetch(request, env) {
