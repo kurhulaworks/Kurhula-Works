@@ -27,7 +27,86 @@ export default {
 
     const url = new URL(request.url);
 
+      // ========================================
+// GITHUB CONNECTION TEST
+// ========================================
 
+if (
+  request.method === "GET" &&
+  url.pathname === "/github-test"
+) {
+
+  try {
+
+    const response = await fetch(
+      "https://api.github.com/repos/kurhulaworks/Kurhula-Works",
+      {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${env.GITHUB_TOKEN}`,
+          "Accept": "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+          "User-Agent": "kurhula-works-worker"
+        }
+      }
+    );
+
+
+    const data = await response.json();
+
+
+    if (!response.ok) {
+
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: data.message || "GitHub connection failed."
+        }),
+        {
+          status: response.status,
+          headers: {
+            "Content-Type": "application/json",
+            ...corsHeaders
+          }
+        }
+      );
+    }
+
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        message: "GitHub connection works.",
+        repository: data.full_name
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders
+        }
+      }
+    );
+
+  } catch (error) {
+
+    console.error("GitHub test error:", error);
+
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: "Unable to connect to GitHub."
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json",
+          ...corsHeaders
+        }
+      }
+    );
+  }
+        }
     // ========================================
     // WEBSITE IDENTITY
     // ========================================
