@@ -3,7 +3,7 @@ import {
   getIdentity, 
   updateIdentity
 } from "./identity.js";
-
+import { uploadImage } from "./upload-image.js";
 
 export default {
   async fetch(request, env) {
