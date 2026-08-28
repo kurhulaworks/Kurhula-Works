@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Upload Test | Kurhula Works Admin</title>
+
+</head>
+
+
+<body>
+
+  <h1>GitHub Image Upload Test</h1>
+
+  <p>
+    Choose one small JPG, PNG or WebP image.
+  </p>
+
+
+  <input
+    type="file"
+    id="image"
+    accept="image/jpeg,image/png,image/webp"
+  >
+
+
+  <br><br>
+
+
+  <button id="upload">
+    Upload Test Image
+  </button>
+
+
+  <p id="message"></p>
+
+
+  <pre id="result"></pre>
+
+
+  <script>
+
+    const API_URL =
+      "https://kurhula-works-api.kurhulaworks.workers.dev";
+
+
+    const imageInput =
+      document.getElementById("image");
+
+    const uploadButton =
+      document.getElementById("upload");
+
+    const message =
+      document.getElementById("message");
+
+    const result =
+      document.getElementById("result");
+
+
+    uploadButton.addEventListener(
+      "click",
+      async () => {
+
+        const file =
+          imageInput.files[0];
+
+
+        if (!file) {
+
+          message.textContent =
+            "Please choose an image first.";
+
+          return;
+
+        }
+
+
+        message.textContent =
+          "Uploading...";
+
+        result.textContent =
+          "";
+
+
+        try {
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload = async () => {
+
+            const base64 =
+              reader.result.split(",")[1];
+
+
+            const response =
+              await fetch(
+                `${API_URL}/upload-image`,
+                {
+
+                  method: "POST",
+
+                  headers: {
+                    "Content-Type":
+                      "application/json"
+                  },
+
+                  body:
+                    JSON.stringify({
+
+                      file_name:
+                        file.name,
+
+                      file_base64:
+                        base64,
+
+                      content_type:
+                        file.type
+
+                    })
+
+                }
+              );
+
+
+            const data =
+              await response.json();
+
+
+            result.textContent =
+              JSON.stringify(
+                data,
+                null,
+                2
+              );
+
+
+            if (
+              response.ok &&
+              data.success
+            ) {
+
+              message.textContent =
+                "Image uploaded successfully!";
+
+            } else {
+
+              message.textContent =
+                "Upload failed.";
+
+            }
+
+          };
+
+
+          reader.readAsDataURL(file);
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          message.textContent =
+            "Unable to connect to the Worker.";
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+
+  </html>
