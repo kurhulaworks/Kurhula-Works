@@ -1,4 +1,4 @@
-export async function onRequestPost(context) {
+export async function onRequest(context) {
   try {
     const testEnquiry = {
       name: "Test Customer",
