@@ -1,31 +1,13 @@
 export async function onRequest(context) {
   try {
-    const testEnquiry = {
-      name: "Test Customer",
-      phone: "0720000000",
-      email: "test@example.com",
-      service: "House Construction",
-      message: "This is a backend connection test."
-    };
-
-    const response = await context.env.SERVICE.fetch(
-      new Request("https://kurhula-works-api/enquiries", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(testEnquiry)
-      })
+    const request = new Request(
+      "https://kurhula-works-api/github-test",
+      {
+        method: "GET"
+      }
     );
 
-    const data = await response.text();
-
-    return new Response(data, {
-      status: response.status,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+    return await context.env.SERVICE.fetch(request);
 
   } catch (error) {
     return new Response(
