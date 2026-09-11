@@ -13,7 +13,7 @@ form.addEventListener("submit", async (event) => {
 
   try {
     const response = await fetch(
-      "https://kurhula-works-api.kurhulaworks.workers.dev/enquiries",
+      "/api/enquiries",
       {
         method: "POST",
         headers: {
@@ -26,14 +26,19 @@ form.addEventListener("submit", async (event) => {
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.error || "Unable to send enquiry.");
+      throw new Error(
+        result.error || "Unable to send enquiry."
+      );
     }
 
     alert("Thank you. Your enquiry has been received.");
     form.reset();
 
   } catch (error) {
-    alert("Sorry, your enquiry could not be sent. Please try again.");
+    alert(
+      "Sorry, your enquiry could not be sent. Please try again."
+    );
+
     console.error(error);
   }
 });
