@@ -161,7 +161,57 @@
     </div>
 
   </main>
+<script>
 
+  async function loadEnquiries() {
+
+    try {
+
+      const response =
+        await fetch("/api/enquiries");
+
+      const data =
+        await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.error || "Unable to load enquiries."
+        );
+      }
+
+      const enquiries =
+        data.enquiries || [];
+
+      const newCount =
+        enquiries.filter(
+          enquiry => enquiry.status === "new"
+        ).length;
+
+      const openCount =
+        enquiries.filter(
+          enquiry => enquiry.status === "open"
+        ).length;
+
+      document.getElementById("new-count").textContent =
+        newCount;
+
+      document.getElementById("open-count").textContent =
+        openCount;
+
+    } catch (error) {
+
+      console.error(
+        "Unable to load enquiries:",
+        error
+      );
+
+    }
+
+  }
+
+  loadEnquiries();
+
+  </script>
 
 </body>
 
