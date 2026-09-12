@@ -60,3 +60,53 @@ export async function handleEnquiry(request, env) {
     );
   }
 }
+
+
+export async function getEnquiries(env) {
+  try {
+    const result = await env.DB
+      .prepare(
+        `SELECT
+          id,
+          name,
+          phone,
+          email,
+          service,
+          message,
+          status,
+          created_at
+        FROM enquiries
+        ORDER BY created_at DESC`
+      )
+      .all();
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        enquiries: result.results
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+  } catch (error) {
+    console.error("Get enquiries error:", error);
+
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: "Unable to load enquiries."
+      }),
+      {
+        status: 500,
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+    );
+  }
+}
