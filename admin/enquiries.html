@@ -203,7 +203,81 @@
 
       document.getElementById("open-count").textContent =
         openCount;
+    const enquiryList =
+  document.getElementById("enquiry-list");
 
+if (enquiries.length === 0) {
+
+  enquiryList.innerHTML = `
+    <div class="admin-empty">
+
+      <h3>
+        No enquiries yet
+      </h3>
+
+      <p>
+        New customer enquiries will appear
+        here when they are submitted.
+      </p>
+
+    </div>
+  `;
+
+  return;
+}
+
+
+enquiryList.innerHTML =
+  enquiries.map(enquiry => `
+
+    <article class="admin-service-item">
+
+      <div>
+
+        <span class="admin-card-number">
+          ${enquiry.status.toUpperCase()}
+        </span>
+
+        <h3>
+          ${enquiry.name}
+        </h3>
+
+        <p>
+          <strong>Service:</strong>
+          ${enquiry.service}
+        </p>
+
+        <p>
+          <strong>Phone:</strong>
+          ${enquiry.phone}
+        </p>
+
+        ${
+          enquiry.email
+            ? `
+              <p>
+                <strong>Email:</strong>
+                ${enquiry.email}
+              </p>
+            `
+            : ""
+        }
+
+        <p>
+          <strong>Message:</strong>
+          ${enquiry.message}
+        </p>
+
+        <p>
+          <strong>Received:</strong>
+          ${enquiry.created_at}
+        </p>
+
+      </div>
+
+    </article>
+
+  `).join("");
     } catch (error) {
 
       console.error(
